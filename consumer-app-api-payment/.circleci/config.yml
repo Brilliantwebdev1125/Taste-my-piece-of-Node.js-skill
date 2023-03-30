@@ -1,0 +1,265 @@
+version: 2.1
+orbs:
+  slack: circleci/slack@4.4.4
+jobs:
+  build_and_deploy_test:
+    machine:
+      image: ubuntu-2004:202010-01
+    environment:
+      CIRCLE_CI_PIPELINE_NUMBER: <<pipeline.number>>
+    steps:
+      - checkout
+      - run:
+          name: Installing AWS CLI
+          command: |
+            sudo apt-get update
+            sudo apt-get install python3-pip
+            sudo pip3 install awsebcli --upgrade
+      - run:
+          name: Install kubectl
+          command: |
+            sudo apt-get install -y apt-transport-https ca-certificates curl
+            sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+            echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+            sudo apt-get update
+            sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
+            sudo chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+      - run:
+          name: Preparing aws creds
+          command: ---
+      - run:
+          name: Build docker image
+          command: ---
+      - run:
+          name: push docker image to ecr
+          command: ---
+
+      - run:
+          name: Avoid hosts unknown for github
+          command: ---
+      - run:
+          name: Deploy to eks
+          command: ---
+      - slack/notify:
+          channel: ---
+          event: pass
+          template: basic_success_1
+
+      - slack/notify:
+          channel: ---
+          event: fail
+          template: basic_fail_1
+
+  build_and_deploy_stage:
+    machine:
+      image: ubuntu-2004:202010-01
+    environment:
+      CIRCLE_CI_PIPELINE_NUMBER: <<pipeline.number>>
+    steps:
+      - checkout
+      - run:
+          name: Installing AWS CLI
+          command: |
+            sudo apt-get update
+            sudo apt-get install python3-pip
+            sudo pip3 install awsebcli --upgrade
+      - run:
+          name: Install kubectl
+          command: |
+            sudo apt-get install -y apt-transport-https ca-certificates curl
+            sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+            echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+            sudo apt-get update
+            sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
+            sudo chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+      - run:
+          name: Preparing aws creds
+          command: ---
+      - run:
+          name: Build docker image
+          command: ---
+      - run:
+          name: push docker image to ecr
+          command: ---
+
+      - run:
+          name: Avoid hosts unknown for github
+          command: ---
+      - run:
+          name: Deploy to eks
+          command: ---
+
+      - slack/notify:
+          channel: ---
+          event: pass
+          template: basic_success_1
+
+      - slack/notify:
+          channel: ---
+          event: fail
+          template: basic_fail_1
+
+  build_prod:
+    machine:
+      image: ubuntu-2004:202010-01
+    environment:
+      CIRCLE_CI_PIPELINE_NUMBER: <<pipeline.number>>
+    steps:
+      - checkout
+      - run:
+          name: Installing AWS CLI
+          command: |
+            sudo apt-get update
+            sudo apt-get install python3-pip
+            sudo pip3 install awsebcli --upgrade
+      - run:
+          name: Install kubectl
+          command: |
+            sudo apt-get install -y apt-transport-https ca-certificates curl
+            sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+            echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+            sudo apt-get update
+            sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
+            sudo chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+      - run:
+          name: Preparing aws creds
+          command: ---
+      - run:
+          name: Build docker image
+          command: ---
+      - run:
+          name: push docker image to ecr
+          command: ---
+
+      - run:
+          name: Avoid hosts unknown for github
+          command: ---
+      - slack/notify:
+          channel: ---
+          event: pass
+          template: basic_success_1
+
+      - slack/notify:
+          channel: ---
+          event: fail
+          template: basic_fail_1
+
+  deploy_prod:
+    machine:
+      image: ubuntu-2004:202010-01
+    environment:
+      CIRCLE_CI_PIPELINE_NUMBER: <<pipeline.number>>
+    steps:
+      - checkout
+      - run:
+          name: Installing AWS CLI
+          command: |
+            sudo apt-get update
+            sudo apt-get install python3-pip
+            sudo pip3 install awsebcli --upgrade
+      - run:
+          name: Install kubectl
+          command: |
+            sudo apt-get install -y apt-transport-https ca-certificates curl
+            sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+            echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+            sudo apt-get update
+            sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.6/bin/linux/amd64/kubectl
+            sudo chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+      - run:
+          name: Preparing aws creds
+          command: ---
+      - run:
+          name: Avoid hosts unknown for github
+          command: ---
+      - run:
+          name: Deploy to eks
+          command: ---
+
+      - slack/notify:
+          channel: ---
+          event: pass
+          template: basic_success_1
+
+      - slack/notify:
+          channel: ---
+          event: fail
+          template: basic_fail_1
+
+
+  test:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - run:
+          name: Running tests
+          command: docker-compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml down -v
+      - slack/notify:
+          channel: ---
+          event: pass
+          template: basic_success_1
+
+      - slack/notify:
+          channel: ---
+          event: fail
+          template: basic_fail_1
+
+
+workflows:
+  version: 2
+  execute_job:
+    jobs:
+      - test
+      - build_and_deploy_test:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - develop
+      - build_and_deploy_stage:
+          requires:
+            - test
+          filters:
+              branches:
+                only:
+                  - /release/.*/
+      - slack/on-hold:
+          channel: C01S2MV80SZ
+          template: basic_on_hold_1
+          requires:
+            - build_prod
+          filters:
+            branches:
+              only:
+                master
+      - prod_deploy_manual_approval:
+          type: approval
+          requires:
+            - slack/on-hold
+          filters:
+            branches:
+              only:
+                master
+      - build_prod:
+          requires:
+            - test
+          filters:
+              branches:
+                only:
+                  - master
+      - deploy_prod:
+          requires:
+            - prod_deploy_manual_approval
+          filters:
+              branches:
+                only:
+                  - master
+
+
+
